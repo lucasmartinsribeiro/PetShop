@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"> 
+
+<h:head></h:head> 
+<body>
+	<h:form>
+		<h:panelGrid columns="1">
+			<h:commandLink action="index?faces-redirect=true" value="Home" />
+			<h:commandLink action="cadastroCliente?faces-redirect=true" value="Gerenciar Clientes" />
+			<h:commandLink action="cadastroAnimal?faces-redirect=true" value="Gerenciar Animais" />
+			<h:commandLink action="registrarAtendimento?faces-redirect=true" value="Registrar Atendimento" />
+			<h:commandLink action="relatorio?faces-redirect=true" value="Relatório" />
+		</h:panelGrid>
+	</h:form>
+	
+	<h:form>
+		<h:panelGrid>
+			<h:outputLabel value="Tipo:" />
+	 		<h:selectOneMenu value="#{relatorioBean.tipo}">
+	 			<f:selectItem itemLabel="Maior ou Igual" itemValue="Maior"/>
+	 			<f:selectItem itemLabel="Menor" itemValue="Menor"/>
+	 		</h:selectOneMenu>
+	 		
+	 		<h:outputLabel value="Digite o valor desejado: " />
+	 		<h:inputText value="#{relatorioBean.valorConsulta}" />
+	 		
+			<h:commandButton action="#{relatorioBean.filtrar()}" value="Filtrar" />
+		</h:panelGrid>
+	</h:form>
+	
+	<h:form>
+		<h:dataTable value="#{relatorioBean.listaAtendimentos}" var="atendAtual" border="1">
+			<h:column>
+				<f:facet name="header">Valor do Atendimento</f:facet>
+				<h:outputText value="#{atendAtual.valor}" />				
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">Descrição do Atendimento</f:facet>
+				<h:outputText value="#{atendAtual.descricao}" />				
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">Nome do Animal</f:facet>
+				<h:outputText value="#{atendAtual.animalAtendido.nome}" />				
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">Raça</f:facet>
+				<h:outputText value="#{atendAtual.animalAtendido.raca}" />				
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">Especie</f:facet>
+				<h:outputText value="#{atendAtual.animalAtendido.especie}" />				
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">Nome do dono</f:facet>
+				<h:outputText value="#{atendAtual.animalAtendido.dono.nome}" />				
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">CPF do dono</f:facet>
+				<h:outputText value="#{atendAtual.animalAtendido.dono.cpf}" />				
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">Endereço Completo</f:facet>
+				<h:outputText value="#{atendAtual.animalAtendido.dono.enderecoCompleto}" />				
+			</h:column>
+		</h:dataTable>
+		<h:messages />
+	</h:form>
+
+</body> 
+</html>

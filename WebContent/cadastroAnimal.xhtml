@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"> 
+
+<h:head></h:head> 
+<body>
+	<h:form>
+		<h:panelGrid columns="1">
+			<h:commandLink action="index?faces-redirect=true" value="Home" />
+			<h:commandLink action="cadastroCliente?faces-redirect=true" value="Gerenciar Clientes" />
+			<h:commandLink action="cadastroAnimal?faces-redirect=true" value="Gerenciar Animais" />
+			<h:commandLink action="registrarAtendimento?faces-redirect=true" value="Registrar Atendimento" />
+			<h:commandLink action="relatorio?faces-redirect=true" value="Relatório" />
+		</h:panelGrid>
+	</h:form>
+	
+	<h:form>
+		<h:messages />
+		<h:panelGrid columns="2">
+			<h:outputLabel value="Nome do animal: " />
+			<h:inputText value="#{animalBean.animal.nome}" 
+					required="true" requiredMessage="O nome é obrigatório!" />
+			
+			<h:outputLabel value="Raça: " />
+			<h:inputText value="#{animalBean.animal.raca}" 
+					required="true" requiredMessage="A raça é obrigatória!"/>
+			
+			<h:outputLabel value="Especie: " />
+			<h:inputText value="#{animalBean.animal.especie}" 
+					required="true" requiredMessage="A especie é obrigatória!"/>
+			
+			<h:outputLabel value="Cliente: " />
+	 		<h:selectOneMenu value="#{animalBean.idClienteAtual}" disabled="#{animalBean.statusEdicao}">
+	 			<f:selectItem itemValue="#{animalBean.animal.dono.id}" itemLabel="Selecione" />
+	 			<f:selectItems value="#{animalBean.clientes}" var="clienteAtual"
+	 							itemLabel="#{clienteAtual.nome}" itemValue="#{clienteAtual.id}"/> 			
+	 		</h:selectOneMenu>
+	 		
+			<h:commandButton action="#{animalBean.gravarAnimal()}" 
+								value="Gravar" rendered="#{!animalBean.statusEdicao}" />
+								
+			<h:commandButton action="#{animalBean.atualizarAnimal()}" 
+								value="Atualizar" rendered="#{animalBean.statusEdicao}" />
+								
+			<h:commandButton action="#{animalBean.cancelar()}" value="Cancelar" />					
+		</h:panelGrid>
+	</h:form>
+	
+	<h:form>
+		<h:dataTable value="#{animalBean.animais}" var="animalAtual" border="1">
+			<h:column>
+				<f:facet name="header">Nome do animal</f:facet>
+				<h:outputText value="#{animalAtual.nome}" />
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">Raça</f:facet>
+				<h:outputText value="#{animalAtual.raca}" />
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">Especie</f:facet>
+				<h:outputText value="#{animalAtual.especie}" />
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">Nome do dono</f:facet>
+				<h:outputText value="#{animalAtual.dono.nome}" />
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">CPF do dono</f:facet>
+				<h:outputText value="#{animalAtual.dono.cpf}" />
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">Ações</f:facet>
+				<h:commandButton 
+				action="#{animalBean.carregarAnimal(animalAtual)}"
+				
+				value="Editar" />
+			</h:column>
+		</h:dataTable>
+	</h:form>
+</body> 
+</html>
